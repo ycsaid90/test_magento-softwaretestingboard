@@ -13,7 +13,6 @@
     "dotenv": "^16.0.0",
     "playwright": "^1.30.0",
     "@playwright/test": "^1.30.0",
-    "typescript": "^5.0.0",
     "ts-node": "^10.9.1"
   },
   "devDependencies": {}
