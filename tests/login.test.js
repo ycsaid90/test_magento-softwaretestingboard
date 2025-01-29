@@ -1,15 +1,13 @@
 import { test } from '@playwright/test';
 import SignInPage from '../pages/sign-in';
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
 
+dotenv.config(); // Cargar variables de entorno desde .env
 
+const email = process.env.USERNAME;
+const password = process.env.PASSWORD;
 
-dotenv.config(); // Load environment variables from .env
-
-const email = process.env.USERNAME!;
-const password = process.env.PASSWORD!;
-
-let signInPage: SignInPage;
+let signInPage;
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
@@ -19,13 +17,13 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('magento.softwaretestingboard.com - Sign In', () => {
-    test('successfull login', async () => {
+    test('successful login', async () => {
         await signInPage.doLogin(email, password);
         await signInPage.checkLoggedIn();
-    })
+    });
 
-    test('failed login - invalid password ', async() => {
+    test('failed login - invalid password', async () => {
         await signInPage.doLogin(email, 'wrong password!');
         await signInPage.checkInvalidLogin();
-    })
-})
+    });
+});
