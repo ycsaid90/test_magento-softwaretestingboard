@@ -6,13 +6,13 @@ dotenv.config(); // Cargar variables de entorno desde .env
 
 const email = process.env.USERNAME;
 const password = process.env.PASSWORD;
-
+const url = process.env.URL;
 let signInPage;
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
 test.beforeEach(async ({ page }) => {
-    await page.goto('https://magento.softwaretestingboard.com/customer/account/login');
+    await page.goto(url);
     signInPage = new SignInPage(page);
 });
 

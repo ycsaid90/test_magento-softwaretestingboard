@@ -5,11 +5,14 @@ import dotenv from 'dotenv';
 dotenv.config(); // Cargar variables de entorno desde .env
 
 const email = process.env.USERNAME;
+const url = process.env.URL;
+let signInPage;
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
 test.beforeEach(async ({ page }) => {
-    await page.goto('https://magento.softwaretestingboard.com/customer/account/login');
+    await page.goto(url);
+    signInPage = new SignInPage(page);
 });
 
 test.describe('magento.softwaretestingboard.com - RecoveryPassword', () => {
@@ -18,9 +21,9 @@ test.describe('magento.softwaretestingboard.com - RecoveryPassword', () => {
         forgot.click();
         await expect(page).toHaveURL(/.*forgotpassword/);
         await expect(page).toHaveTitle('Forgot Your Password?')
-        const email = await page.locator('#email_address')
-        email.click();
-        await email.fill('email');
+        const emailfield = await page.locator('#email_address')
+        emailfield.click();
+        await emailfield.fill(email);
         await page.locator('#form-validate > div > div.primary > button').click();
     });
 })

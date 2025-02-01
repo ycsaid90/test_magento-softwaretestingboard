@@ -1,9 +1,9 @@
-import { expect } from '@playwright/test';
+import { page, expect } from '@playwright/test';
 
-export class SignInPage {
+class SignInPage {
     constructor(page) {
         this.page = page;
-        this.email = page.locator("#email");
+        this.email = page.locator('input#email');
         this.password = page.locator("[name='login[password]']");
         this.signInButton = page.getByRole('button', { name: 'Sign In' });
         this.alertMessage = page.locator(".message-error > div");
