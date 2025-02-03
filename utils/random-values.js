@@ -15,7 +15,7 @@ let randomValues = {
     url: faker.internet.url({ protocol: 'http'}),
     company: faker.company.name(),
     year : faker.number.bigInt({ min: 2000, max: 2024 }),
-    postCode: faker.number.zipcode,
+    postCode: faker.number.int({ min: 5, max: 5})
 }
 
 module.exports = randomValues

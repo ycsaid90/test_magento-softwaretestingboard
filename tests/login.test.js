@@ -2,7 +2,7 @@ import { test } from '@playwright/test';
 import SignInPage from '../pages/sign-in';
 import dotenv from 'dotenv';
 
-dotenv.config(); // Cargar variables de entorno desde .env
+dotenv.config(); // .env var
 
 const email = process.env.USERNAME;
 const password = process.env.PASSWORD;
@@ -12,8 +12,8 @@ let signInPage;
 test.use({ storageState: { cookies: [], origins: [] } });
 
 test.beforeEach(async ({ page }) => {
-    await page.goto(url);
     signInPage = new SignInPage(page);
+    await page.goto(url);
 });
 
 test.describe('magento.softwaretestingboard.com - Sign In', () => {

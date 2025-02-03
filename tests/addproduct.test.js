@@ -16,6 +16,7 @@ test.use({ storageState: { cookies: [], origins: [] } });
 test.beforeEach(async ({ page }) => {
     await page.goto(url);
     signInPage = new SignInPage(page);
+    await signInPage.doLogin(email, password);
     await page.locator('div.header.content > a').click();
 });
 
@@ -29,6 +30,6 @@ test.describe('magento.softwaretestingboard.com - Add Product to cart', () => {
        await productCart.gotoCart();
        await productCart.checkingCart();
        await productCart.completeForm(firstName, lastName, company, address, address, address, city, postCode, phone );
-       
+       await productCart.gotoPayment();
     })
 })

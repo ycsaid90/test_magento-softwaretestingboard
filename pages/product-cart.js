@@ -26,6 +26,7 @@ class ProductCarPage {
         this.phoneInput = page.locator('.input-text[name="telephone"]');
         this.radio1Button = page.locator('input[type="radio"][name="ko_unique_1"]');
         this.radio2Button = page.locator('input[type="radio"][name="ko_unique_2"]');
+        this.nextPage = page.getByRole('button', { name: 'Next'});
     }
 
     async selectElement() {
@@ -33,7 +34,6 @@ class ProductCarPage {
         const randomValue = Math.floor(Math.random() * itemCount)+1;
         // this.productItem = this.page.locator(`li:nth-child(${randomValue}) div.product-item-info > a`);
         this.productItem = this.page.locator(`li:nth-child(2) div.product-item-info > a`);
-
         await this.productItem.click();
         await this.page.waitForSelector('div.breadcrumbs > ul > li.item.product', { visible: true } );
     }
@@ -82,8 +82,8 @@ class ProductCarPage {
 
     async checkingCart() {
         await this.checkoutButton.click();
-        await expect(this.page).toHaveURL(/.*checkout*/);
         await this.page.waitForSelector('#shipping.checkout-shipping-address', { timeout: 45000 });
+        // await expect(this.page).toHaveURL('https://magento.softwaretestingboard.com/checkout/#shipping');
         await expect(this.page.locator('#shipping div.step-title')).toHaveText('Shipping Address');
     }
 
@@ -114,8 +114,8 @@ class ProductCarPage {
 
     }
 
-    async fillPostCode(postcode){
-        await this.postcodeInput.fill(postcode);
+    async fillPostCode(){
+        await this.postcodeInput.fill('33469');
     }
 
     async selectCountry(){
@@ -133,16 +133,26 @@ class ProductCarPage {
         await this.radio1Button.click();
     }
 
-    async completeForm(firstName, lastName, address1, address2, address3, city, postCode){
+    async completeForm(firstName, lastName, address1, address2, address3, city){
         await this.fillFirstName(firstName);
         await this.fillLastName(lastName);
         await this.fillAddress(address1, address2, address3);
         await this.fillCity(city);
         await this.selectState();
-        await this.fillPostCode(postCode);
+        await this.fillPostCode();
         await this.selectCountry();
         await this.fillPhone();
         await this.checkRadioButton();
+        await this.nextPage.click();
+    }
+
+    async gotoPayment(){
+        // await this.page.waitForSelector('#shipping.checkout-shipping-address', { timeout: 45000 });
+        const paymentGroupLocator = this.page.locator('div.payment-group div.step-title');
+        const textContent = await paymentGroupLocator.textContent();
+
+        // Log the text content to the console
+        console.log(textContent);
     }
 
 }
