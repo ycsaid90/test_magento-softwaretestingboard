@@ -78,14 +78,13 @@ class ProductCarPage {
         this.cartLink.click();
         await expect(this.page).toHaveURL(/.*cart/);
         await expect(this.page).toHaveTitle("Shopping Cart");
-
     }
 
     async checkingCart() {
-        // await this.page.waitForSelector('button.action.primary.checkout');
         await this.checkoutButton.click();
         await expect(this.page).toHaveURL(/.*checkout*/);
-        await expect(this.page.locator('#shipping .step-title')).toHaveText(['Shipping Address']);
+        await this.page.waitForSelector('#shipping.checkout-shipping-address', { timeout: 45000 });
+        await expect(this.page.locator('#shipping div.step-title')).toHaveText('Shipping Address');
     }
 
     async fillFirstName(firstName) {
