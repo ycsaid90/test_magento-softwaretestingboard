@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 import SignInPage from '../pages/sign-in';
 import ProductCarPage from '../pages/product-cart';
-
 import dotenv from 'dotenv';
+import {address, company, firstName, lastName, phone, city, postCode} from '../utils/random-values';
 
 dotenv.config(); // Cargar variables de entorno desde .env
 
@@ -23,10 +23,12 @@ test.describe('magento.softwaretestingboard.com - Add Product to cart', () => {
     test('Adding product in the car', async ({page}) => {
        let productCart = new ProductCarPage(page);
        await productCart.selectElement();
-       await productCart.selectSizeRandom();
-       await productCart.selectRandomColor();
+       await productCart.selectColorSize();
        await productCart.addingtoCar();
        await productCart.checkNotification();
-       await productCart.checkCart();
+       await productCart.gotoCart();
+       await productCart.checkingCart();
+       await productCart.completeForm(firstName, lastName, company, address, address, address, city, postCode, phone );
+       
     })
 })
