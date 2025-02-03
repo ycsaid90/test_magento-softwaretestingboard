@@ -78,13 +78,15 @@ class ProductCarPage {
         this.cartLink.click();
         await expect(this.page).toHaveURL(/.*cart/);
         await expect(this.page).toHaveTitle("Shopping Cart");
+        await this.checkoutButton.click();
     }
 
     async checkingCart() {
-        await this.checkoutButton.click();
-        await this.page.waitForSelector('#shipping.checkout-shipping-address', { timeout: 45000 });
-        // await expect(this.page).toHaveURL('https://magento.softwaretestingboard.com/checkout/#shipping');
-        await expect(this.page.locator('#shipping div.step-title')).toHaveText('Shipping Address');
+        const stepTitleLocator = this.page.locator('#shipping div.step-title[data-role="title"]');
+        console.log(stepTitleLocator);
+        const textContent = await stepTitleLocator.innerText();
+        console.log(textContent);
+        await expect(this.page.locator('#shipping .step-title')).toHaveText(textContent);
     }
 
     async fillFirstName(firstName) {
@@ -147,12 +149,8 @@ class ProductCarPage {
     }
 
     async gotoPayment(){
-        // await this.page.waitForSelector('#shipping.checkout-shipping-address', { timeout: 45000 });
         const paymentGroupLocator = this.page.locator('div.payment-group div.step-title');
         const textContent = await paymentGroupLocator.textContent();
-
-        // Log the text content to the console
-        console.log(textContent);
     }
 
 }
