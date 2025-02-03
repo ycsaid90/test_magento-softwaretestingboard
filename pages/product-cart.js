@@ -83,10 +83,11 @@ class ProductCarPage {
 
     async checkingCart() {
         const stepTitleLocator = this.page.locator('#shipping div.step-title[data-role="title"]');
+        // await this.page.locator('div.step-title[data-role="title"]', { hasText: 'Details' }).click();
         console.log(stepTitleLocator);
         const textContent = await stepTitleLocator.innerText();
         console.log(textContent);
-        await expect(this.page.locator('#shipping .step-title')).toHaveText(textContent);
+        await expect(this.page.locator('#shipping div.step-title[data-role="title"]')).toHaveText(textContent);
     }
 
     async fillFirstName(firstName) {
@@ -151,6 +152,9 @@ class ProductCarPage {
     async gotoPayment(){
         const paymentGroupLocator = this.page.locator('div.payment-group div.step-title');
         const textContent = await paymentGroupLocator.textContent();
+
+        // Log the text content to the console
+        console.log(textContent);
     }
 
 }
