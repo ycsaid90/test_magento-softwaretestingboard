@@ -1,4 +1,4 @@
-import { page, expect } from '@playwright/test';
+import { page, test, expect } from '@playwright/test';
 
 class SignInPage {
     constructor(page) {
@@ -30,6 +30,9 @@ class SignInPage {
     }
 
     async checkInvalidLogin() {
+        const errorMessage = await this.alertMessage.textContent();
+        console.log('Error Message is:', errorMessage);
+        await expect(errorMessage.includes("The account sign-in was incorrect")).toBeTruthy();
         await expect(this.alertMessage).toContainText('The account sign-in was incorrect');
         await expect(this.page).toHaveTitle("Customer Login");
     }

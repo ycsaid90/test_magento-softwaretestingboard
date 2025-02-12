@@ -1,4 +1,4 @@
-import { page, expect } from '@playwright/test';
+import { page, test, expect } from '@playwright/test';
 
 class ProductCarPage {
     constructor(page) {
@@ -27,6 +27,8 @@ class ProductCarPage {
         this.radio1Button = page.locator('input[type="radio"][name="ko_unique_1"]');
         this.radio2Button = page.locator('input[type="radio"][name="ko_unique_2"]');
         this.nextPage = page.getByRole('button', { name: 'Next'});
+        this.tittle =  page.locator('#shipping div.step-title[data-role="title"]');
+
     }
 
     async selectElement() {
@@ -82,12 +84,12 @@ class ProductCarPage {
     }
 
     async checkingCart() {
-        const stepTitleLocator = this.page.locator('#shipping div.step-title[data-role="title"]');
-        // await this.page.locator('div.step-title[data-role="title"]', { hasText: 'Details' }).click();
-        console.log(stepTitleLocator);
-        const textContent = await stepTitleLocator.innerText();
-        console.log(textContent);
-        await expect(this.page.locator('#shipping div.step-title[data-role="title"]')).toHaveText(textContent);
+        // this.page.locator('#shipping div.step-title[data-role="title"]');
+        const stepTitleLocator = await this.page.locator('#shipping div.step-title').textContent();
+        console.log("checkingcart", stepTitleLocator);
+        await expect(stepTitleLocator.includes("Shipping Address")).toBeTruthy();
+
+        // await expect(this.page).toHaveTitle(stepTitleLocator);
     }
 
     async fillFirstName(firstName) {
@@ -114,7 +116,6 @@ class ProductCarPage {
     async selectState(){
         const stateSelect = this.page.locator('select[name="region_id"]');
         await stateSelect.selectOption('2'); // Selects "Alaska" (value="2")
-
     }
 
     async fillPostCode(){
@@ -129,7 +130,6 @@ class ProductCarPage {
 
     async fillPhone(){
         await this.phoneInput.fill('561-923-1232');
-
     }
 
     async checkRadioButton(){
@@ -152,8 +152,6 @@ class ProductCarPage {
     async gotoPayment(){
         const paymentGroupLocator = this.page.locator('div.payment-group div.step-title');
         const textContent = await paymentGroupLocator.textContent();
-
-        // Log the text content to the console
         console.log(textContent);
     }
 
